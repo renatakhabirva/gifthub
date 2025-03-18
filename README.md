@@ -1,6 +1,1 @@
 # gifthub
-
-
-
-## Getting Started
-
