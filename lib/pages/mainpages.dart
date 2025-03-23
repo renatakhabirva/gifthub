@@ -1,17 +1,57 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:gifthub/themes/primarytheme.dart';
+import 'package:gifthub/pages/auth_notif.dart';
+import 'package:gifthub/pages/product_card.dart';
 import 'package:gifthub/themes/colors.dart';
+import 'package:gifthub/pages/productgrid.dart';
+import 'package:gifthub/pages/auth.dart';
+import 'package:gifthub/pages/registration.dart';
 
 class NavigationExample extends StatefulWidget {
-  const NavigationExample({Key? key}) : super(key: key);
+  const NavigationExample({super.key});
 
-  @override
-  State<NavigationExample> createState() => _NavigationExampleState();
+  @override State<NavigationExample> createState() => _NavigationExampleState();
 }
 
 class _NavigationExampleState extends State<NavigationExample> {
   int currentPageIndex = 0;
+  final TextEditingController _searchController = TextEditingController();
+  Map<String, dynamic>? selectedProduct;
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void navigateToAuth() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Authorization(),
+      ),
+    );
+  }
+
+  void navigateToRegistration() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RegistrationForm(),
+      ),
+    );
+  }
+
+  void selectProduct(Map<String, dynamic> product) {
+    setState(() {
+      selectedProduct = product;
+    });
+  }
+
+  void goBack() {
+    setState(() {
+      selectedProduct = null;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,6 +60,7 @@ class _NavigationExampleState extends State<NavigationExample> {
         onDestinationSelected: (int index) {
           setState(() {
             currentPageIndex = index;
+            selectedProduct = null; // Сбрасываем выбранный продукт при смене вкладки
           });
         },
         selectedIndex: currentPageIndex,
@@ -46,45 +87,74 @@ class _NavigationExampleState extends State<NavigationExample> {
           ),
         ],
       ),
-      body: currentPageIndex == 0
-          ? Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              child: Text(
-                "GIFTHUB",
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  color: buttonGreen,
-                  fontSize: 72,
-                  fontFamily: "plantype",
+      body: Stack(
+        children: [
+          IndexedStack(
+            index: currentPageIndex,
+            children: [
+              Center(
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(top: 30),
+                      child: Text(
+                        "GIFTHUB",
+                        style: TextStyle(
+                          color: buttonGreen,
+                          fontSize: 72,
+                          fontFamily: "plantype",
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(top: 25, right: 10, left: 10),
+                      child: TextFormField(
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.search),
+                          prefixIconColor: Colors.white,
+                          hintText: 'Поиск товаров',
+                          hintStyle: TextStyle(
+                            color: Colors.grey,
+                            fontFamily: 'segoe ui',
+                          ),
+                        ),
+                        onChanged: (value) => setState(() {}),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 25, right: 10, left: 10),
+                        child: ResponsiveGrid(
+                          searchQuery: _searchController.text,
+                          onProductTap: selectProduct,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(top: 25, right: 24, left: 24),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search),
-                  prefixIconColor: Colors.white,
-                ),
+              AuthNotif(
+                onLoginPressed: navigateToAuth,
+                onRegistrationPressed: navigateToRegistration,
               ),
-            ),
-
-          ],
-        ),
-      )
-          : currentPageIndex == 1
-          ? Center(
-        child: Text("Желания"),
-      )
-          : currentPageIndex == 2
-          ? Center(
-        child: Text("Корзина"),
-      )
-          : Center(
-        child: Text("Аккаунт"),
+              AuthNotif(
+                onLoginPressed: navigateToAuth,
+                onRegistrationPressed: navigateToRegistration,
+              ),
+              AuthNotif(
+                onLoginPressed: navigateToAuth,
+                onRegistrationPressed: navigateToRegistration,
+              ),
+            ],
+          ),
+          selectedProduct != null
+              ? ProductDetailScreenState(
+            product: selectedProduct!,
+            onBack: (bool _) => goBack(),
+          )
+              : Container(),
+        ],
       ),
     );
   }

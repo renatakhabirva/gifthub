@@ -30,6 +30,8 @@ environment:
 
 
 dependencies:
+  cached_network_image: ^3.3.0
+  flutter_cache_manager: ^3.3.1
   flutter:
 
     sdk: flutter
@@ -41,6 +43,17 @@ dependencies:
   cupertino_icons: ^1.0.8
   supabase_flutter: ^2.8.3
   flutter_dotenv: ^5.1.0
+  infinite_scroll_pagination: ^4.1.0
+  video_player: ^2.9.3
+  chewie: ^1.10.0
+  carousel_slider: ^5.0.0
+  get_storage: ^2.1.1
+  flutter_meedu: ^9.1.1
+  video_player_win: ^3.1.1
+  flutter_launcher_icons: ^0.14.3
+  dropdown_button2: ^2.3.9
+
+
 
 
 
@@ -54,6 +67,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  msix: ^3.16.8
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -62,11 +76,15 @@ dev_dependencies:
 flutter:
   assets:
     - .env
+    - assets/
+    
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -105,3 +123,4 @@ flutter:
     - family: segoeui
       fonts:
         - asset: fonts/segoeui.ttf
+

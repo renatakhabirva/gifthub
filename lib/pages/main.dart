@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gifthub/themes/primarytheme.dart';
@@ -9,13 +8,17 @@ import 'package:gifthub/pages/mainpages.dart';
 void main() async {
   // Загрузка .env перед запуском приложения
   await dotenv.load();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(GiftHub());
 }
 
 class GiftHub extends StatelessWidget {
+  const GiftHub({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: const Locale('ru', 'RU'),
       debugShowCheckedModeBanner: false,
       theme: primTheme(),
       home: SplashScreen(),
@@ -24,6 +27,8 @@ class GiftHub extends StatelessWidget {
 }
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -65,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Надпись
+
             Text(
               'gifthub',
               style: TextStyle(
@@ -75,7 +80,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
             SizedBox(height: 20),
-            // Полоса загрузки
+
             CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(darkGreen), // Цвет полосы загрузки
             ),
