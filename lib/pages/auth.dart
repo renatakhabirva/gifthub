@@ -68,7 +68,7 @@ class AuthorizationFormState extends State<AuthorizationForm> {
               child: TextFormField(
                 controller: _emailController,
                 decoration: InputDecoration(
-                  labelText: "Email или телефон",
+                  labelText: "Email",
 
                 ),
                 validator: (value) => value == null || value.isEmpty

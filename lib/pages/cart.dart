@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gifthub/themes/colors.dart';
 import 'package:gifthub/pages/auth.dart';
 
-class Vishlist extends StatelessWidget {
+class CartPage extends StatelessWidget {
 
 
   @override

@@ -119,72 +119,72 @@ class _ResponsiveGridState extends State<ResponsiveGrid> {
                   },
                   child: Card(
 
-                elevation: 0,
-                color: backgroundBeige,
-                borderOnForeground: true,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Stack(
-                  children: [
-                    Column(
+                    elevation: 0,
+                    color: backgroundBeige,
+                    borderOnForeground: true,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Stack(
                       children: [
-                        Expanded(
+                        Column(
+                          children: [
+                            Expanded(
 
-                          flex: 4,
-                          child: ClipRRect(
+                              flex: 4,
+                              child: ClipRRect(
 
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(10)),
-                            child: buildMediaWidget(imageUrl),
-                          ),
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(10)),
+                                child: buildMediaWidget(imageUrl),
+                              ),
 
+                            ),
+
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      product['ProductName'] ??
+                                          'Без названия',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: darkGreen,
+                                        fontFamily: "segoeui",
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: Text(
+                                      '${product['ProductCost']} ₽',
+                                      style: TextStyle(
+                                        color: darkGreen,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "segoeui",
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-
-                        Expanded(
-                          flex: 1,
-                          child: Column(
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  product['ProductName'] ??
-                                      'Без названия',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: darkGreen,
-                                    fontFamily: "segoeui",
-                                  ),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              Flexible(
-                                child: Text(
-                                  '${product['ProductCost']} ₽',
-                                  style: TextStyle(
-                                    color: darkGreen,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "segoeui",
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
+                        Positioned(
+                          right: 5,
+                          child: IconButton(
+                            icon: Icon(Icons.favorite_border),
+                            onPressed: () {},
                           ),
                         ),
                       ],
                     ),
-                    Positioned(
-                      right: 5,
-                      child: IconButton(
-                        icon: Icon(Icons.favorite_border),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ],
-                ),
-              ));
+                  ));
             },
           );
         },
@@ -192,4 +192,3 @@ class _ResponsiveGridState extends State<ResponsiveGrid> {
     );
   }
 }
-

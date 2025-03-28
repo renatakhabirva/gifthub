@@ -5,11 +5,16 @@ import 'package:gifthub/themes/colors.dart';
 import 'package:gifthub/pages/productgrid.dart';
 import 'package:gifthub/pages/auth.dart';
 import 'package:gifthub/pages/registration.dart';
+import 'package:gifthub/pages/wishlist.dart';
+import 'package:gifthub/pages/cart.dart';
+import 'package:gifthub/pages/account.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class NavigationExample extends StatefulWidget {
   const NavigationExample({super.key});
 
-  @override State<NavigationExample> createState() => _NavigationExampleState();
+  @override
+  State<NavigationExample> createState() => _NavigationExampleState();
 }
 
 class _NavigationExampleState extends State<NavigationExample> {
@@ -24,20 +29,17 @@ class _NavigationExampleState extends State<NavigationExample> {
   }
 
   void navigateToAuth() async {
-    final result = await Navigator.push(
+    await Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => Authorization(),
-      ),
+      MaterialPageRoute(builder: (context) => Authorization()),
     );
+    setState(() {});
   }
 
   void navigateToRegistration() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => RegistrationForm(),
-      ),
+      MaterialPageRoute(builder: (context) => RegistrationForm()),
     );
   }
 
@@ -52,15 +54,18 @@ class _NavigationExampleState extends State<NavigationExample> {
       selectedProduct = null;
     });
   }
+
   @override
   Widget build(BuildContext context) {
+    final user = Supabase.instance.client.auth.currentUser;
+
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         height: 70,
         onDestinationSelected: (int index) {
           setState(() {
             currentPageIndex = index;
-            selectedProduct = null; // Сбрасываем выбранный продукт при смене вкладки
+            selectedProduct = null;
           });
         },
         selectedIndex: currentPageIndex,
@@ -134,18 +139,9 @@ class _NavigationExampleState extends State<NavigationExample> {
                   ],
                 ),
               ),
-              AuthNotif(
-                onLoginPressed: navigateToAuth,
-                onRegistrationPressed: navigateToRegistration,
-              ),
-              AuthNotif(
-                onLoginPressed: navigateToAuth,
-                onRegistrationPressed: navigateToRegistration,
-              ),
-              AuthNotif(
-                onLoginPressed: navigateToAuth,
-                onRegistrationPressed: navigateToRegistration,
-              ),
+              user != null ? WishlistGrid() : AuthNotif(onLoginPressed: navigateToAuth, onRegistrationPressed: navigateToRegistration),
+              user != null ? CartPage() : AuthNotif(onLoginPressed: navigateToAuth, onRegistrationPressed: navigateToRegistration),
+              user != null ? AccountPage() : AuthNotif(onLoginPressed: navigateToAuth, onRegistrationPressed: navigateToRegistration),
             ],
           ),
           selectedProduct != null

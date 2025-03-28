@@ -139,49 +139,49 @@ class ProductDetailScreenState extends StatelessWidget {
                         ),
                       Expanded(
                         flex: isLargeScreen ? 3 : 1,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 10, top: 5),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 10, top: 5),
 
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${product['ProductCost']} ₽',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: darkGreen,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${product['ProductCost']} ₽',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: darkGreen,
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 16),
-                            Text(
-                              'Описание продукта:',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                              SizedBox(height: 16),
+                              Text(
+                                'Описание продукта:',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 8),
-                            FutureBuilder<String>(
-                              future: formatProductDescription(product['ProductID']),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  return Text(
-                                    snapshot.data!,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      height: 1.5,
-                                      color: Colors.black87,
-                                    ),
+                              SizedBox(height: 8),
+                              FutureBuilder<String>(
+                                future: formatProductDescription(product['ProductID']),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(
+                                      snapshot.data!,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        height: 1.5,
+                                        color: Colors.black87,
+                                      ),
+                                    );
+                                  }
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
                                   );
-                                }
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              },
-                            ),
-                          ],
+                                },
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
                       )
                     ],
                   ),

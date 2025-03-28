@@ -82,42 +82,7 @@ ThemeData primTheme() =>
         progressIndicatorTheme: ProgressIndicatorThemeData(
             color: darkGreen
         ),
-        dropdownMenuTheme: DropdownMenuThemeData(
 
-          inputDecorationTheme: InputDecorationTheme(
-
-            focusColor: darkGreen,
-            fillColor: lightGrey,
-
-            filled: true,
-
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(width: 1.5, color: darkGreen),
-
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(width: 1.5, color: Colors.redAccent),
-
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(width: 1.5, color: Colors.redAccent),
-
-            ),
-
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(width: 0, style: BorderStyle.none,),
-
-            ),
-            labelStyle: TextStyle(
-                color: darkGreen, fontFamily: 'segoeui', fontSize: 20),
-
-          ),
-
-        ),
 
       );
 
