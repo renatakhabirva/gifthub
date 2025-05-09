@@ -1,0 +1,2 @@
+C:/Users/NUC/AndroidStudioProjects/gifthub/android/app/.cxx/RelWithDebInfo/4w4f3c1y/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/NUC/AndroidStudioProjects/gifthub/android/app/.cxx/RelWithDebInfo/4w4f3c1y/x86_64/CMakeFiles/rebuild_cache.dir
