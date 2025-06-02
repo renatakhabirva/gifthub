@@ -98,7 +98,6 @@ class _ResponsiveGridState extends State<ResponsiveGrid> {
           .select('''
             ParametrID,
             ParametrName,
-            Parametr,
             ParametrProduct!inner(
               ProductID,
               Quantity
@@ -389,7 +388,7 @@ class _ResponsiveGridState extends State<ResponsiveGrid> {
                               return DropdownMenuItem<int>(
                                 value: parameter['ParametrID'],
                                 child: Text(
-                                  '${parameter['ParametrName']}: ${parameter['Parametr']}',
+                                  '${parameter['ParametrName']}',
                                   style: TextStyle(
                                     color: darkGreen,
                                     fontFamily: "segoeui",

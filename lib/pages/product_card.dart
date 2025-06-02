@@ -168,7 +168,7 @@ class ProductDetailScreen extends StatelessWidget {
       isInWishlist.value = value;
     });
     final selectedParameter = ValueNotifier<String?>(null);
-    final selectedParameterCost = ValueNotifier<double?>(product['ProductCost'].toDouble());
+    final selectedParameterCost = ValueNotifier<int?>(product['ProductCost'].toInt());
 
     return WillPopScope(
       onWillPop: () async {
@@ -302,7 +302,7 @@ class ProductDetailScreen extends StatelessWidget {
                                         color: darkGreen,
                                       ),
                                     )),
-                              ValueListenableBuilder<double?>(
+                              ValueListenableBuilder<int?>(
                                 valueListenable: selectedParameterCost,
                                 builder: (context, cost, child) {
                                   return Text(
@@ -330,7 +330,7 @@ class ProductDetailScreen extends StatelessWidget {
                                         spacing: 8,
                                         children: parameters.map((param) {
                                           final name = param['Parametr']['ParametrName'];
-                                          final cost = param['Cost'].toDouble(); // Преобразование в double
+                                          final cost = param['Cost'].toInt(); // Преобразование в double
                                           final isSelected = selected == name;
                                           return FutureBuilder<int?>(
                                             future: fetchParametrId(name)

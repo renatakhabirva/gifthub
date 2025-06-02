@@ -32,16 +32,11 @@ class _NotificationsPageState extends State<NotificationsPage> {
         throw Exception('Пользователь не авторизован');
       }
 
-      // Получаем уведомления с информацией об отправителе
+
       final response = await supabase
           .from('Notification')
           .select('''
-            *,
-            Sender:SenderID (
-              ClientDisplayname,
-              ClientName,
-              ClientSurName
-            )
+            *
           ''')
           .eq('RecipientID', userId)
           .order('CreatedAt', ascending: false);

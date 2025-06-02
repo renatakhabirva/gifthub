@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gifthub/pages/payment_webview.dart';
 import 'package:gifthub/pages/windows_webview.dart';
 import 'package:intl/intl.dart';
@@ -138,7 +139,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           .insert({
         'OrderStatus': 1,
         'OrderPlanDeliveryDate': _selectedDeliveryDate?.toIso8601String(),
-        'OrderRecipient': currentUserId,
         'OrderSender': currentUserId,
         'OrderSum': widget.totalCost,
         'OrderCity': selectedCityId,
@@ -187,9 +187,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
         await client.from('Notification').insert({
           'RecipientID': currentUserId,
-          'SenderID': currentUserId,
           'Message': 'Ваш заказ №$orderId успешно оплачен!',
-          'Type': 'order_paid',
+
         });
       }
 
@@ -391,6 +390,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           labelText: 'Квартира (необязательно)',
                           border: OutlineInputBorder(),
                         ),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
                       ),
                       SizedBox(height: 20),
                       Row(
