@@ -66,7 +66,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _loadCities() async {
-    final response = await Supabase.instance.client.from('City').select('CityID, City');
+    final response =
+        await Supabase.instance.client.from('City').select('CityID, City');
     if (response != null) {
       setState(() {
         _cities = List<Map<String, dynamic>>.from(response);
@@ -86,8 +87,9 @@ class _ProfilePageState extends State<ProfilePage> {
         'ClientSurName': _surnameController.text,
         'ClientPhone': _phoneController.text,
         'ClientCity': _selectedCity,
-        'ClientBirthday': _birthdayController.text.isNotEmpty ? _birthdayController.text : null,
-
+        'ClientBirthday': _birthdayController.text.isNotEmpty
+            ? _birthdayController.text
+            : null,
       }).eq('ClientID', userId);
 
       //  изменился ли email
@@ -100,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
         );
 
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${MessagesRu.updateEmail} $_userEmail')),
+          SnackBar(content: Text('${MessagesRu.updateEmail} $newEmail')),
         );
       }
 
@@ -178,20 +180,18 @@ class _ProfilePageState extends State<ProfilePage> {
               TextFormField(
                 controller: _nameController,
                 decoration: InputDecoration(labelText: 'Имя'),
-                validator: (value) =>
-                value == null || value
-                    .trim()
-                    .isEmpty ? '${MessagesRu.fieldRequired}' : null,
+                validator: (value) => value == null || value.trim().isEmpty
+                    ? '${MessagesRu.fieldRequired}'
+                    : null,
               ),
               SizedBox(height: 12),
 
               TextFormField(
                 controller: _surnameController,
                 decoration: InputDecoration(labelText: 'Фамилия'),
-                validator: (value) =>
-                value == null || value
-                    .trim()
-                    .isEmpty ? '${MessagesRu.fieldRequired}' : null,
+                validator: (value) => value == null || value.trim().isEmpty
+                    ? '${MessagesRu.fieldRequired}'
+                    : null,
               ),
               SizedBox(height: 12),
 
@@ -209,7 +209,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     _selectedCity = value;
                   });
                 },
-                validator: (value) => value == null ? MessagesRu.fieldRequired : null,
+                validator: (value) =>
+                    value == null ? MessagesRu.fieldRequired : null,
                 dropdownColor: lightGrey,
                 style: TextStyle(
                   color: darkGreen,
@@ -220,18 +221,25 @@ class _ProfilePageState extends State<ProfilePage> {
               SizedBox(height: 12),
 
               TextFormField(
-                controller: _phoneController,
-                decoration: InputDecoration(labelText: "Номер телефона"),
-                keyboardType: TextInputType.phone,
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'[\+\d\s]')),
-                ],
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return MessagesRu.fieldRequired;
-                  }
-                },
-              ),
+                  controller: _phoneController,
+                  decoration: InputDecoration(labelText: "Номер телефона"),
+                  keyboardType: TextInputType.phone,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[+\d]')),
+                  ],
+                  maxLength: 12,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return MessagesRu.fieldRequired;
+                    }
+                    if (value.length < 11) {
+                      return 'Минимальная длина номера - 11 символов';
+                    }
+                    if (value.length > 12) {
+                      return 'Максимальная длина номера - 12 символов';
+                    }
+                    return null;
+                  }),
               SizedBox(height: 12),
 
               TextFormField(
@@ -247,10 +255,10 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               SizedBox(height: 12),
 
-
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 ),
                 onPressed: _updateUserData,
                 icon: Icon(Icons.save),
@@ -264,7 +272,8 @@ class _ProfilePageState extends State<ProfilePage> {
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: wishListIcon,
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 ),
                 onPressed: () async {
                   final bool? confirmed = await showDialog<bool>(
@@ -289,7 +298,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       await Supabase.instance.client.auth.signOut();
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => NavigationExample()),
+                        MaterialPageRoute(
+                            builder: (context) => NavigationExample()),
                       );
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -305,7 +315,8 @@ class _ProfilePageState extends State<ProfilePage> {
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: wishListIcon,
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 ),
                 onPressed: () async {
                   final user = Supabase.instance.client.auth.currentUser;
@@ -345,8 +356,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             onPressed: () => Navigator.of(context).pop(),
                             child: const Text('Отмена'),
                             style: ButtonStyle(
-                                foregroundColor: MaterialStateProperty.all<Color>(darkGreen)
-                            ),
+                                foregroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        darkGreen)),
                           ),
                           TextButton(
                             onPressed: () async {
@@ -358,30 +370,36 @@ class _ProfilePageState extends State<ProfilePage> {
                                 return;
                               }
                               try {
-                                final response = await Supabase.instance.client.auth
-                                    .signInWithPassword(email: user.email!, password: password);
+                                final response = await Supabase
+                                    .instance.client.auth
+                                    .signInWithPassword(
+                                        email: user.email!, password: password);
 
                                 if (response.user == null) {
                                   throw 'invalid_password';
                                 }
 
-                                await Supabase.instance.client.rpc('delete_current_user');
+                                await Supabase.instance.client
+                                    .rpc('delete_current_user');
                                 await Supabase.instance.client.auth.signOut();
 
                                 Navigator.of(context).pop();
 
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text(MessagesRu.deleteProfile)),
+                                  const SnackBar(
+                                      content: Text(MessagesRu.deleteProfile)),
                                 );
 
                                 Navigator.pushReplacement(
                                   context,
-                                  MaterialPageRoute(builder: (context) => NavigationExample()),
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          NavigationExample()),
                                 );
-
                               } catch (e) {
                                 if (e.toString() == 'invalid_password' ||
-                                    e.toString().contains('Invalid login credentials')) {
+                                    e.toString().contains(
+                                        'Invalid login credentials')) {
                                   setState(() {
                                     _passwordError = 'Неверный пароль';
                                   });
@@ -390,7 +408,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
                                 Navigator.of(context).pop();
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text(MessagesRu.errorDeleteProfile)),
+                                  SnackBar(
+                                      content:
+                                          Text(MessagesRu.errorDeleteProfile)),
                                 );
                               }
                             },

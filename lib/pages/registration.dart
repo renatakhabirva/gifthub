@@ -91,12 +91,16 @@ class RegistrationFormState extends State<RegistrationForm> {
               TextFormField(
                 controller: _emailController,
                 decoration: InputDecoration(labelText: "Email"),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9@._+-]')),
+                ],
                 validator: (value) {
-                  if (value == null || value
-                      .trim()
-                      .isEmpty) return MessagesRu.emailOrPhoneRequired;
-                  if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value))
+                  if (value == null || value.trim().isEmpty) {
+                    return MessagesRu.emailOrPhoneRequired;
+                  }
+                  if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$').hasMatch(value)) {
                     return MessagesRu.invalidEmail;
+                  }
                   return null;
                 },
               ),
@@ -106,13 +110,20 @@ class RegistrationFormState extends State<RegistrationForm> {
                 decoration: InputDecoration(labelText: "Номер телефона"),
                 keyboardType: TextInputType.phone,
                 inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'[\+\d\s]')),
+                  FilteringTextInputFormatter.allow(RegExp(r'[+\d]')),
                 ],
+                maxLength: 12,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
                     return MessagesRu.fieldRequired;
                   }
-
+                  if (value.length < 11) {
+                    return 'Минимальная длина номера - 11 символов';
+                  }
+                  if (value.length > 12) {
+                    return 'Максимальная длина номера - 12 символов';
+                  }
+                  return null;
                 },
               ),
               SizedBox(height: 12),
@@ -272,8 +283,8 @@ class RegistrationFormState extends State<RegistrationForm> {
           SnackBar(content: Text(MessagesRu.registration)),
         );
         Navigator.pushNamed(
-          context,
-          '/main'
+            context,
+            '/main'
         );
       }
     } catch (e) {
@@ -284,6 +295,7 @@ class RegistrationFormState extends State<RegistrationForm> {
         errorMessage = MessagesRu.emailExists;
       } else if (e.toString().contains('Client_ClientPhone_key')) {
         errorMessage = MessagesRu.phoneExists;
+        await Supabase.instance.client.rpc('delete_current_user');
       } else {
         errorMessage = MessagesRu.displayNameExists;
       }

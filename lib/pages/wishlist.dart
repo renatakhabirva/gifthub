@@ -273,7 +273,7 @@ class _WishlistGridState extends State<WishlistGrid> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.favorite),
+          icon: Icon(Icons.favorite_outline),
           onPressed: null,
         ),
         title: Text("Избранное",),

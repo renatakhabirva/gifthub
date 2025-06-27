@@ -192,9 +192,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         });
       }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Заказ успешно оплачен!')),
-      );
 
       Navigator.pushNamed(context, '/main');
     } catch (error) {

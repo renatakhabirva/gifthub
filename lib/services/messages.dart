@@ -18,8 +18,8 @@ class MessagesRu {
   static const String quantityProductIsNull = 'В наличии больше нет';
   static const String error = 'Ошибка';
   static const String noLogin = 'Вы не авторизованы';
-  static const String deleteFromWishList = 'Товар удалён из вишлиста';
-  static const String addToWishList = 'Товар добавлен в вишлист';
+  static const String deleteFromWishList = 'Товар удалён из списка желаемого';
+  static const String addToWishList = 'Товар добавлен в список желаемого';
   static const String updateProductQuantity =
       'Количество товара в корзине увеличено';
   static const String addToCart = 'Товар успешно добавлен в корзину';
