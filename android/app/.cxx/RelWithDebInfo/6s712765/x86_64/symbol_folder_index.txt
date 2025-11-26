@@ -1,0 +1,1 @@
+C:\Users\NUC\AndroidStudioProject\gifthub\gifthub\build\app\intermediates\cxx\RelWithDebInfo\6s712765\obj\x86_64

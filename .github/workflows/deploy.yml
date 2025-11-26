@@ -1,0 +1,53 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+
+
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: |
+          flutter clean
+          flutter pub get
+
+      - name: Create env config
+        run: |
+          echo "const String supabaseUrl = '${{ secrets.SUPABASE_URL }}';" > lib/env_config.dart
+          echo "final String supabaseKey = '${{ secrets.SUPABASE_KEY }}';" >> lib/env_config.dart
+          echo "const String yookassaShopId = '${{ secrets.YOOKASSA_SHOP_ID }}';" >> lib/env_config.dart
+          echo "const String yookassaSecretKey = '${{ secrets.YOOKASSA_SECRET_KEY }}';" >> lib/env_config.dart
+
+      - name: Build web
+        run: flutter build web --release --base-href "/gifthub/"
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/web
+          force_orphan: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'Deploy: ${{ github.sha }} [skip ci]'
+          enable_jekyll: false
+          keep_files: false
